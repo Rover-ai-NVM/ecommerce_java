@@ -1,33 +1,44 @@
 package com.ecommerce.shop_backend.controller;
 
 import com.ecommerce.shop_backend.model.Product;
-import com.ecommerce.shop_backend.repository.ProductRepository;
-import org.springframework.http.HttpStatus;
+import com.ecommerce.shop_backend.service.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-
-    private final ProductRepository productRepository;
-
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
+    @Autowired
+    private ProductService productService;
+    
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getAllProduct(){
+        return productService.getAllProducts();
     }
-
-    //ajout de produit (POST /api/ products)
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+        return productService.getProductById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable Long categoryId){
+        return productService.getProductsByCategoryId(categoryId);
+    }
+    
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody @NonNull Product product) {
-        Product savedProduct = productRepository.save(product);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    public Product createProduct(@RequestBody Product product){
+        return productService.saveProduct(product);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }
