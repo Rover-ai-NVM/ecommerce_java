@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.ecommerce.shop_backend.service;
-
+import com.ecommerce.shop_backend.model.Category;
 import com.ecommerce.shop_backend.model.Product;
+import com.ecommerce.shop_backend.repository.CategoryRepository;
 import com.ecommerce.shop_backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     
     public List<Product> getAllProduct(){
         return productRepository.findAll();
@@ -34,6 +37,13 @@ public class ProductService {
     }
     
     public Product saveProduct(Product product) {
+        if(product.getCategory() != null ){
+            Long categoryId = product.getCategory().getId();
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(()-> new RuntimeException("Categorie non trouvée"));
+            product.setCategory(category);
+            
+        }
         return productRepository.save(product);
     }
     
@@ -44,8 +54,4 @@ public class ProductService {
     public List<Product> getAllProducts() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-  
-            
-    
 }
