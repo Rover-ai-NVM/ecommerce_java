@@ -26,7 +26,22 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
     
+    //mettre à jour une categorie
+    public Category updateCategory(Long id, Category categoryDetails){
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Catégorie introuvable avec l'id : "+ id));
+        
+        category.setName(categoryDetails.getName());
+        category.setDescription(categoryDetails.getDescription());
+        
+        return categoryRepository.save(category);
+    }
+    
+    //supprimer une categorie
     public void deleteCategory(Long id){
-        categoryRepository.deleteById(id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Catégorie introuvable avec l'id : " + id));
+        
+        categoryRepository.delete(category);
     }
 }
