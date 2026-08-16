@@ -81,8 +81,4 @@ public class Product {
     public void setImage(String imageUrl){
         this.imageUrl = imageUrl;
     }
-
-    public void setImageUrl(String imageUrl) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
