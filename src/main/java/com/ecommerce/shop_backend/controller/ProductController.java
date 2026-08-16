@@ -4,6 +4,8 @@ import com.ecommerce.shop_backend.model.Product;
 import com.ecommerce.shop_backend.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +46,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
+    }
+    
+    @GetMapping("/paged")
+    public Page<Product> getAllProductsPagination(Pageable pageable){
+        return productService.getAllProductsPaginated(pageable);
     }
 }

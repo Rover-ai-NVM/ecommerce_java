@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.ecommerce.shop_backend.service;
+import com.ecommerce.shop_backend.exception.ResourceNotFoundException;
 import com.ecommerce.shop_backend.model.Category;
 import com.ecommerce.shop_backend.model.Product;
 import com.ecommerce.shop_backend.repository.CategoryRepository;
 import com.ecommerce.shop_backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,18 +58,24 @@ public class ProductService {
         product.setDescription(productDetails.getDescription());
         product.setPrice(productDetails.getPrice());
         product.setStock(productDetails.getStock());
+        product.setImageUrl(productDetails.getImageUrl());
         
         return productRepository.save(product);
     }
     
     public void deleteProduct(Long id){
         Product product = productRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Produit introuvable avec l'id : " + id));
+                .orElseThrow(()-> new ResourceNotFoundException("Produit introuvable avec l'id : " + id));
         
         productRepository.delete(product);
     }
 
     public List<Product> getAllProducts() {
        return productRepository.findAll();
+    }
+    
+    public Page<Product>  getAllProductsPaginated(Pageable pageable){
+        return productRepository.findAll(pageable);
+
     }
 }

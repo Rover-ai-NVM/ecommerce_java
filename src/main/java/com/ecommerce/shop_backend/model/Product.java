@@ -72,4 +72,17 @@ public class Product {
     public void setStock(Integer stock){
         this.stock = stock;
     }
+    private String imageUrl;
+    
+    public String getImageUrl(){
+        return imageUrl;
+    }
+    
+    public void setImage(String imageUrl){
+        this.imageUrl = imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
