@@ -8,6 +8,7 @@ import com.ecommerce.shop_backend.model.Category;
 import com.ecommerce.shop_backend.model.Product;
 import com.ecommerce.shop_backend.repository.CategoryRepository;
 import com.ecommerce.shop_backend.repository.ProductRepository;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -77,5 +78,17 @@ public class ProductService {
     public Page<Product>  getAllProductsPaginated(Pageable pageable){
         return productRepository.findAll(pageable);
 
+    }
+    
+    public Page<Product>  searchProductsByName(String name, Pageable pageable){
+        return productRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+    
+    public Page<Product>  getProductsByCategory(Long categoryId, Pageable pageable){
+        return productRepository.findByCategoryId(categoryId, pageable);
+    }
+    
+    public Page<Product>  getProducsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable){
+        return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
     }
 }

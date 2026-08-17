@@ -2,6 +2,7 @@ package com.ecommerce.shop_backend.controller;
 
 import com.ecommerce.shop_backend.model.Product;
 import com.ecommerce.shop_backend.service.ProductService;
+import java.math.BigDecimal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -52,4 +53,23 @@ public class ProductController {
     public Page<Product> getAllProductsPagination(Pageable pageable){
         return productService.getAllProductsPaginated(pageable);
     }
+    
+    @GetMapping("/search")
+    public Page<Product> searchProducts(@RequestParam String name, Pageable pageable){
+        return productService.searchProductsByName(name, pageable);
+    }
+    
+    @GetMapping("/category/{categoryId}")
+    public Page<Product> getProductsByCategory(@PathVariable Long categoryId, Pageable pageable){
+       return productService.getProductsByCategory(categoryId, pageable);
+    }
+    
+    @GetMapping("/filter-price")
+    public Page<Product> filterByPrice(
+            @RequestParam BigDecimal min,
+            @RequestParam BigDecimal max,
+            Pageable pageable){
+        return productService.getProducsByPriceRange(min,max, pageable);
+    }
 }
+ 
