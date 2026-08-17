@@ -28,12 +28,7 @@ public class ProductController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
-    @GetMapping("/category/{categoryId}")
-    public List<Product> getProductsByCategory(@PathVariable Long categoryId){
-        return productService.getProductsByCategoryId(categoryId);
-    }
-    
+       
     @PostMapping
     public Product createProduct(@RequestBody Product product){
         return productService.saveProduct(product);
