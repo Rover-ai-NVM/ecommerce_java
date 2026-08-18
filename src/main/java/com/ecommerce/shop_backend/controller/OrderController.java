@@ -4,9 +4,10 @@
  */
 package com.ecommerce.shop_backend.controller;
 
+import com.ecommerce.shop_backend.dto.OrderRequestDTO;
 import com.ecommerce.shop_backend.model.Order;
-import com.ecommerce.shop_backend.model.OrderItem;
 import com.ecommerce.shop_backend.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,6 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     
-    @PostMapping
-    public Order createOrder(@RequestBody Order order){
-        return orderService.createOrder(order);
-    }
-    
     @GetMapping
     public List<Order> getAllOrders(){
         return orderService.getAllOrders();
@@ -37,5 +33,10 @@ public class OrderController {
     @GetMapping("/{id}")
     public Order getOrderById(@PathVariable Long id){
         return orderService.getOrderById(id);
+    }
+    
+    @PostMapping
+    public Order createOrder(@Valid @RequestBody OrderRequestDTO orderRequestDTO){
+        return orderService.createOrderFromDTO(orderRequestDTO);
     }
 }

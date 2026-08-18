@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.ecommerce.shop_backend.service;
+import com.ecommerce.shop_backend.dto.ProductDTO;
 import com.ecommerce.shop_backend.exception.ResourceNotFoundException;
 import com.ecommerce.shop_backend.model.Category;
 import com.ecommerce.shop_backend.model.Product;
@@ -59,7 +60,7 @@ public class ProductService {
         product.setDescription(productDetails.getDescription());
         product.setPrice(productDetails.getPrice());
         product.setStock(productDetails.getStock());
-        product.setImage(productDetails.getImageUrl());
+        product.setImageUrl(productDetails.getImageUrl());
         
         return productRepository.save(product);
     }
@@ -90,5 +91,37 @@ public class ProductService {
     
     public Page<Product>  getProducsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable){
         return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+    }
+    public Product createProductFromDTO(ProductDTO productDTO){
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setStock(productDTO.getStock());
+        product.setImageUrl(productDTO.getImageUrl());
+    
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Catégorie introuvable"));
+        product.setCategory(category);
+        
+        return productRepository.save(product);
+    }
+    public Product updateProductFromDTO(Long id, ProductDTO productDTO){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+        
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setStock(productDTO.getStock());
+        product.setImageUrl(productDTO.getImageUrl());
+        
+        if (productDTO.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Categorie introuvable"));
+            product.setCategory(category);
+        }
+        
+        return productRepository.save(product);
     }
 }

@@ -1,5 +1,7 @@
 package com.ecommerce.shop_backend.controller;
 
+import com.ecommerce.shop_backend.dto.ProductDTO;
+import jakarta.validation.Valid;
 import com.ecommerce.shop_backend.model.Product;
 import com.ecommerce.shop_backend.service.ProductService;
 import java.math.BigDecimal;
@@ -65,6 +67,14 @@ public class ProductController {
             @RequestParam BigDecimal max,
             Pageable pageable){
         return productService.getProducsByPriceRange(min,max, pageable);
+    }
+    @PostMapping
+    public Product createProduct(@Valid @RequestBody ProductDTO productDTO){
+        return productService.createProductFromDTO(productDTO);
+    }
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
+        return productService.updateProductFromDTO(id, productDTO);
     }
 }
  

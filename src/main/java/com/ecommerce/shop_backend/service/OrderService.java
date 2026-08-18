@@ -4,6 +4,7 @@
  */
 package com.ecommerce.shop_backend.service;
 
+import com.ecommerce.shop_backend.dto.OrderRequestDTO;
 import com.ecommerce.shop_backend.exception.ResourceNotFoundException;
 import com.ecommerce.shop_backend.model.Order;
 import com.ecommerce.shop_backend.model.OrderItem;
@@ -61,6 +62,9 @@ public class OrderService {
                 .orElseThrow(() -> {
             return new ResourceNotFoundException("Commande introuvable avec l'id:"+ id);
         });
+    }
+    public Order createOrderFromDTO(OrderRequestDTO orderRequestDTO){
+        return new Order();
     }
     
 }
