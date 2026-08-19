@@ -13,7 +13,11 @@ import java.util.List;
  * @author merdi
  */
 public class OrderRequestDTO {
+    private String customerName;
     
+    public String getCustomerName(){
+        return customerName;
+    }
     @NotEmpty(message = "La commande doit contenir au moins un article")
     @Valid
     private List<OrderItemDTO> items;
