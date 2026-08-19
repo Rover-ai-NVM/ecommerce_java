@@ -29,6 +29,7 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderItem> items = new ArrayList<>();
+    private String customerName;
     
     public Order(){
         this.orderDate = LocalDateTime.now();
@@ -68,5 +69,9 @@ public class Order {
     }
     public void setItems(List<OrderItem> items){
         this.items = items;
+    }
+    
+    public void setCustomerName(String CustomerName){
+        this.customerName = CustomerName;
     }
 }
