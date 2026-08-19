@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -34,13 +37,13 @@ public class OrderController {
     }
     
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id){
-        return orderService.getOrderById(id);
+    public  ResponseEntity<?> getOrderById(@PathVariable Long id){
+        return  ResponseEntity.ok(orderService.getOrderById(id));
     }
     
     @PostMapping
-    public Order createOrder(@Valid @RequestBody OrderRequestDTO orderRequestDTO){
-        return orderService.createOrderFromDTO(orderRequestDTO);
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequestDTO orderRequestDTO){
+        return  ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(orderRequestDTO));
     }
 }
     
