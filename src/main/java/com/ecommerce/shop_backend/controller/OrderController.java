@@ -10,6 +10,9 @@ import com.ecommerce.shop_backend.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,9 +20,9 @@ import java.util.List;
  *
  * @author merdi
  */
-@RestController
-@RequestMapping("/api/orders")
 @CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/orders")
 public class OrderController {
     
     @Autowired
@@ -40,3 +43,5 @@ public class OrderController {
         return orderService.createOrderFromDTO(orderRequestDTO);
     }
 }
+    
+   
